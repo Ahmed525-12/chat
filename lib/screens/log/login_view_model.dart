@@ -1,9 +1,11 @@
+import 'package:chat/database/database_utils.dart';
+import 'package:chat/screens/log/login_navigator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../base/base_nav.dart';
 import '../base/base_vm.dart';
 
-class LoginViewModel extends BaseViewModel<BaseNavigator> {
+class LoginViewModel extends BaseViewModel<LoginNavigator> {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   void login(String email, String password) async {
     try {
@@ -12,8 +14,13 @@ class LoginViewModel extends BaseViewModel<BaseNavigator> {
         email: email,
         password: password,
       );
-      baseNavigator?.showmesasge("log in sucssfeully");
-      print(result.user?.uid);
+      var userObj = DataBaseUtils.readuser(result.user?.uid ?? "");
+      if (userObj == null) {
+        baseNavigator?.showmesasge("Failed to Complete sign in ");
+      } else {
+        baseNavigator?.goToHome();
+      }
+
       baseNavigator?.hideloading();
       return;
     } on FirebaseAuthException catch (e) {
