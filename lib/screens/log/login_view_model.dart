@@ -14,11 +14,11 @@ class LoginViewModel extends BaseViewModel<LoginNavigator> {
         email: email,
         password: password,
       );
-      var userObj = DataBaseUtils.readuser(result.user?.uid ?? "");
+      var userObj = await DataBaseUtils.readuser(result.user?.uid ?? "");
       if (userObj == null) {
         baseNavigator?.showmesasge("Failed to Complete sign in ");
       } else {
-        baseNavigator?.goToHome();
+        baseNavigator?.goToHome(userObj);
       }
 
       baseNavigator?.hideloading();

@@ -1,15 +1,19 @@
+import 'package:chat/provider/user_provider.dart';
 import 'package:chat/screens/home/home_screen.dart';
 import 'package:chat/screens/log/login.dart';
 import 'package:chat/screens/register/register.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
- await Firebase.initializeApp(
-  
-  );
-  runApp(const MyApp());
+  await Firebase.initializeApp();
+  runApp(MultiProvider(providers: [
+ChangeNotifierProvider<UserProvider>(
+      create: (context) => UserProvider(),
+    ),
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,6 +22,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var userprovider = Provider.of<UserProvider>(context);
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -26,10 +31,10 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        LogIn.routeName:(context) => LogIn(),
-        HomeScreen.routeName:(context) => HomeScreen(),
+        LogIn.routeName: (context) => LogIn(),
+        HomeScreen.routeName: (context) => HomeScreen(),
       },
-      initialRoute: LogIn.routeName,
+      initialRoute:userprovider.user==null? LogIn.routeName:HomeScreen.routeName,
     );
   }
 }

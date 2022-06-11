@@ -22,7 +22,7 @@ class RegisterViewModel extends BaseViewModel<RegisterNavigator> {
           username: userName,
           email: email);
       var task =  await DataBaseUtils.createDBUser(user);
-      baseNavigator?.goToHome();
+      baseNavigator?.goToHome(user);
       return;
     } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {

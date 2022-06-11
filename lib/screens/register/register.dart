@@ -1,3 +1,5 @@
+import 'package:chat/model/myuser.dart';
+import 'package:chat/provider/user_provider.dart';
 import 'package:chat/screens/base/base_state.dart';
 import 'package:chat/screens/home/home_screen.dart';
 import 'package:chat/screens/log/login.dart';
@@ -24,7 +26,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
 
   String firstname = '';
 
@@ -153,9 +154,9 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                           },
                           child: Text('Create Account')),
                       InkWell(
-                          onTap: (){
-                            Navigator.pushReplacementNamed(context,
-                                LogIn.routeName);
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, LogIn.routeName);
                           },
                           child: Text("Already have an account ? "))
                     ],
@@ -169,7 +170,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
     );
   }
 
-
   void vlidateKey() async {
     if (formKey.currentState?.validate() == true) {
       viewModel.register(email, password, firstname, lastname, username);
@@ -177,8 +177,10 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   }
 
   @override
-  void goToHome() {
+  void goToHome(MyUser myUser) {
     hideloading();
+    var userprovider = Provider.of<UserProvider>(context,listen: false);
+    userprovider.user = myUser;
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 }

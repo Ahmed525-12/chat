@@ -1,9 +1,11 @@
+import 'package:chat/model/myuser.dart';
 import 'package:chat/screens/home/home_screen.dart';
 import 'package:chat/screens/log/login_navigator.dart';
 import 'package:chat/screens/log/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../provider/user_provider.dart';
 import '../base/base_state.dart';
 import '../register/register.dart';
 
@@ -124,7 +126,9 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
  
 
   @override
-  void goToHome() {
+  void goToHome(MyUser myUser) {
+    var userprovider = Provider.of<UserProvider>(context,listen: false);
+    userprovider.user = myUser;
     Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 }
