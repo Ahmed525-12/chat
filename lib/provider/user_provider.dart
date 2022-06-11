@@ -11,7 +11,7 @@ class UserProvider extends ChangeNotifier {
   }
   void initMyUser() async{
     if (firebaseUser != null) {
-      user =await DataBaseUtils.readuser(firebaseUser?.uid??"");
+      user =await DataBaseUtils.readUser(firebaseUser?.uid??"");
     }
     
   }

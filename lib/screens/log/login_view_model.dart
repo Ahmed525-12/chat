@@ -14,10 +14,13 @@ class LoginViewModel extends BaseViewModel<LoginNavigator> {
         email: email,
         password: password,
       );
-      var userObj = await DataBaseUtils.readuser(result.user?.uid ?? "");
+      var userObj = await DataBaseUtils.readUser(result.user?.uid ?? "");
       if (userObj == null) {
-        baseNavigator?.showmesasge("Failed to Complete sign in ");
+        baseNavigator?.showmesasge(
+            "Failed to complete Sign in , please try register again");
+            
       } else {
+        // goto home
         baseNavigator?.goToHome(userObj);
       }
 

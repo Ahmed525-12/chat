@@ -17,8 +17,10 @@ class DataBaseUtils {
     getUsercollection().doc(user.id).set(user);
   }
 
-  static Future<MyUser?> readuser(String userID) async {
-    var userDocSnapshot = await getUsercollection().doc(userID).get();
-    userDocSnapshot.data();
+ static  Future<MyUser?> readUser(String userId)async{
+    var userDocSnapshot = await getUsercollection()
+        .doc(userId)
+        .get();
+    return userDocSnapshot.data();
   }
 }
