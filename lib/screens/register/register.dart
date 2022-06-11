@@ -1,4 +1,6 @@
 import 'package:chat/screens/base/base_state.dart';
+import 'package:chat/screens/home/home_screen.dart';
+import 'package:chat/screens/register/register_navigator.dart';
 import 'package:chat/screens/register/register_view_model.dart';
 
 import 'package:flutter/material.dart';
@@ -13,8 +15,8 @@ class RegisterScreen extends StatefulWidget {
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState
-    extends BaseState<RegisterScreen, RegisterViewModel> {
+class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
+    implements RegisterNavigator {
   @override
   RegisterViewModel initViewModel() {
     return RegisterViewModel();
@@ -23,7 +25,7 @@ class _RegisterScreenState
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   bool isObscure = true;
-  
+
   String firstname = "";
 
   String lastname = "";
@@ -228,7 +230,13 @@ class _RegisterScreenState
 
   void vlidateKey() async {
     if (globalKey.currentState?.validate() == true) {
-      viewModel.register(email, password,firstname,lastname,username);
+      viewModel.register(email, password, firstname, lastname, username);
     }
+  }
+
+  @override
+  void goToHome() {
+    hideloading();
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 }

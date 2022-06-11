@@ -1,3 +1,4 @@
+import 'package:chat/screens/home/home_screen.dart';
 import 'package:chat/screens/log/login.dart';
 import 'package:chat/screens/register/register.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         RegisterScreen.routeName: (context) => RegisterScreen(),
         LogIn.routeName:(context) => LogIn(),
+        HomeScreen.routeName:(context) => HomeScreen(),
       },
       initialRoute: LogIn.routeName,
     );

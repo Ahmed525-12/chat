@@ -1,6 +1,6 @@
 import 'package:chat/screens/base/base_nav.dart';
 
-abstract class RegisterNavigator extends BaseNavigator {
+abstract class LoginNavigator extends BaseNavigator {
   void goToHome(){
     
   }

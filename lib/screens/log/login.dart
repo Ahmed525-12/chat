@@ -1,3 +1,4 @@
+import 'package:chat/screens/log/login_navigator.dart';
 import 'package:chat/screens/log/login_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,8 @@ class LogIn extends StatefulWidget {
   State<LogIn> createState() => _LogInState();
 }
 
-class _LogInState extends BaseState<LogIn, LoginViewModel> {
+class _LogInState extends BaseState<LogIn, LoginViewModel>
+    implements LoginNavigator {
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
   bool isObscure = true;
 
@@ -22,17 +24,15 @@ class _LogInState extends BaseState<LogIn, LoginViewModel> {
   String password = "";
   @override
   void initState() {
-    viewModel.baseNavigator=this;
+    viewModel.baseNavigator = this;
     super.initState();
   }
 
   @override
   build(BuildContext context) {
-    return
-    
-     ChangeNotifierProvider(
-       create: (context) => viewModel,
-       child: Stack(
+    return ChangeNotifierProvider(
+      create: (context) => viewModel,
+      child: Stack(
         children: [
           Container(
             color: Colors.white,
@@ -79,7 +79,7 @@ class _LogInState extends BaseState<LogIn, LoginViewModel> {
                           bool emailValid = RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(text);
-     
+
                           if (!emailValid) {
                             return "email not valid";
                           }
@@ -119,7 +119,7 @@ class _LogInState extends BaseState<LogIn, LoginViewModel> {
                           if (text == null || text.trim().isEmpty) {
                             return "please fill this field";
                           }
-     
+
                           return null;
                         },
                       ),
@@ -153,8 +153,8 @@ class _LogInState extends BaseState<LogIn, LoginViewModel> {
                 )),
           ),
         ],
-         ),
-     );
+      ),
+    );
   }
 
   void vlidateKey() async {
@@ -163,9 +163,13 @@ class _LogInState extends BaseState<LogIn, LoginViewModel> {
     }
   }
 
-
   @override
   LoginViewModel initViewModel() {
     return LoginViewModel();
+  }
+
+  @override
+  void goToHome() {
+    Navigator.pushReplacementNamed(context, "routeName");
   }
 }

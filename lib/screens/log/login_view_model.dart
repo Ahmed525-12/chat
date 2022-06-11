@@ -15,17 +15,14 @@ class LoginViewModel extends BaseViewModel<BaseNavigator> {
       baseNavigator?.showmesasge("log in sucssfeully");
       print(result.user?.uid);
       baseNavigator?.hideloading();
+      return;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         baseNavigator?.showmesasge("the user not found .");
         baseNavigator?.hideloading();
-
-        
       } else if (e.code == 'wrong-password') {
-         baseNavigator?.showmesasge("wrong password");
+        baseNavigator?.showmesasge("wrong password");
         baseNavigator?.hideloading();
-
-       
       }
     } catch (e) {
       baseNavigator?.showmesasge("something went wrong ");
