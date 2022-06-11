@@ -82,7 +82,7 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
                           return null;
                         }),
                     TextFormField(
-                      decoration: InputDecoration(labelText: 'Password'),
+                      decoration: InputDecoration(hintText: 'Password'),
                       onChanged: (text) {
                         password = text;
                       },
@@ -129,6 +129,6 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
   void goToHome(MyUser myUser) {
     var userprovider = Provider.of<UserProvider>(context,listen: false);
     userprovider.user = myUser;
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName,(route) => false);
   }
 }

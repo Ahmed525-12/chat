@@ -181,6 +181,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
     hideloading();
     var userprovider = Provider.of<UserProvider>(context,listen: false);
     userprovider.user = myUser;
-    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName,(route) => false);
   }
 }

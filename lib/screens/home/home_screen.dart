@@ -1,3 +1,4 @@
+import 'package:chat/screens/add_room/add_room.dart';
 import 'package:chat/screens/base/base_state.dart';
 import 'package:chat/screens/home/home_navigator.dart';
 import 'package:chat/screens/home/home_view_model.dart';
@@ -12,21 +13,49 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends BaseState<HomeScreen,HomeViewModel>implements HomeNavigator {
+class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
+    implements HomeNavigator {
+  @override
+  void initState() {
+    viewModel.baseNavigator = this;
+    super.initState();
+  }
+
   @override
   build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => viewModel,
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          
-        },child: Icon(Icons.add),),
-        appBar: AppBar(title: Text("Home"),),
+      child: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+            child: Image.asset(
+              'assets/img/signin.png',
+              width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AddRoom.routeName);
+              },
+              child: const Icon(Icons.add),
+            ),
+            appBar: AppBar(
+              centerTitle: true,
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              title: const Text("Home"),
+            ),
+          ),
+        ],
       ),
     );
   }
-  
-  @override
-  HomeViewModel initViewModel()=>HomeViewModel();
-  }
 
+  @override
+  HomeViewModel initViewModel() => HomeViewModel();
+}
