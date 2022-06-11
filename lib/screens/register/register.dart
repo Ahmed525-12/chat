@@ -23,6 +23,7 @@ class _RegisterScreenState
   GlobalKey<FormState> globalKey = GlobalKey<FormState>();
 
   bool isObscure = true;
+  
   String firstname = "";
 
   String lastname = "";
@@ -227,7 +228,7 @@ class _RegisterScreenState
 
   void vlidateKey() async {
     if (globalKey.currentState?.validate() == true) {
-      viewModel.register(email, password);
+      viewModel.register(email, password,firstname,lastname,username);
     }
   }
 }
