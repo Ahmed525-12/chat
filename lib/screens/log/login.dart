@@ -1,3 +1,4 @@
+import 'package:chat/screens/home/home_screen.dart';
 import 'package:chat/screens/log/login_navigator.dart';
 import 'package:chat/screens/log/login_view_model.dart';
 import 'package:flutter/material.dart';
@@ -17,143 +18,100 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends BaseState<LogIn, LoginViewModel>
     implements LoginNavigator {
-  GlobalKey<FormState> globalKey = GlobalKey<FormState>();
-  bool isObscure = true;
-
-  String email = "";
-  String password = "";
+  @override
+  LoginViewModel initViewModel() => LoginViewModel();
   @override
   void initState() {
-    viewModel.baseNavigator = this;
     super.initState();
+    viewModel.baseNavigator = this;
   }
-
+  String email='';
+  String password='';
+  var globalKey = GlobalKey<FormState>();
   @override
-  build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => viewModel,
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<LoginViewModel>(
+      create: (buildContext)=>viewModel,
       child: Stack(
         children: [
           Container(
             color: Colors.white,
             child: Image.asset(
-              "assets/img/signin.png",
-              alignment: Alignment.center,
-              fit: BoxFit.fill,
+              'assets/img/signin.png',
               width: double.infinity,
+              height: double.infinity,
+              fit: BoxFit.fill,
             ),
           ),
           Scaffold(
             backgroundColor: Colors.transparent,
             appBar: AppBar(
-              title: const Text("Log in"),
               centerTitle: true,
               elevation: 0,
               backgroundColor: Colors.transparent,
+              title: Text(
+                'Login',
+              ),
             ),
-            body: Form(
+            body: Container(
+              padding: EdgeInsets.all(12),
+              child: Form(
                 key: globalKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: TextFormField(
-                        onChanged: (value) {
-                          email = value;
+                    TextFormField(
+                        decoration: InputDecoration(labelText: 'Email'),
+                        onChanged: (text) {
+                          email = text;
                         },
-                        decoration: const InputDecoration(
-                          labelText: "Email",
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                        ),
                         validator: (text) {
                           if (text == null || text.trim().isEmpty) {
-                            return "please fill this field";
+                            return 'Please enter Email';
                           }
+
                           bool emailValid = RegExp(
-                                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                               .hasMatch(text);
-
                           if (!emailValid) {
-                            return "email not valid";
+                            return 'email format not valid';
                           }
                           return null;
-                        },
-                      ),
+                        }),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: 'Password'),
+                      onChanged: (text) {
+                        password = text;
+                      },
+                      validator: (text) {
+                        if (text == null || text.trim().isEmpty) {
+                          return 'please enter password';
+                        }
+                        if (text.trim().length < 6) {
+                          return 'password should be at least 6 chars';
+                        }
+                        return null;
+                      },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(2),
-                      child: TextFormField(
-                        obscureText: isObscure,
-                        onChanged: (value) {
-                          password = value;
+                    ElevatedButton(
+                        onPressed: () {
+                          vlidateKey();
                         },
-                        decoration: InputDecoration(
-                          suffix: IconButton(
-                              color: Colors.blue,
-                              onPressed: () {
-                                isObscure = !isObscure;
-                                setState(() {});
-                              },
-                              icon: Icon(
-                                isObscure
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.blue,
-                              )),
-                          labelText: "password",
-                          focusedBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                          ),
-                        ),
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return "please fill this field";
-                          }
-
-                          return null;
+                        child: Text('Login')),
+                    InkWell(
+                        onTap: (){
+                          Navigator.pushReplacementNamed(context,
+                              RegisterScreen.routeName);
                         },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, RegisterScreen.routeName);
-                                },
-                                child: const Text("Create Account")),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: FloatingActionButton(
-                                  onPressed: () {
-                                    vlidateKey();
-                                  },
-                                  child: const Icon(Icons
-                                      .keyboard_double_arrow_right_outlined)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
+                        child: Text("Don't have an account ? "))
                   ],
-                )),
-          ),
+                ),
+              ),
+            ),
+          )
         ],
-      ),
+      )
     );
   }
 
@@ -163,13 +121,10 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
     }
   }
 
-  @override
-  LoginViewModel initViewModel() {
-    return LoginViewModel();
-  }
+ 
 
   @override
   void goToHome() {
-    Navigator.pushReplacementNamed(context, "routeName");
+    Navigator.pushReplacementNamed(context, HomeScreen.routeName);
   }
 }
