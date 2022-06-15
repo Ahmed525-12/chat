@@ -2,6 +2,7 @@ import 'package:chat/screens/add_room/add_room.dart';
 import 'package:chat/screens/base/base_state.dart';
 import 'package:chat/screens/home/home_navigator.dart';
 import 'package:chat/screens/home/home_view_model.dart';
+import 'package:chat/screens/home/room_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,9 +17,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
     implements HomeNavigator {
   @override
+  HomeViewModel initViewModel() => HomeViewModel();
+  @override
   void initState() {
-    viewModel.baseNavigator = this;
     super.initState();
+    viewModel.baseNavigator = this;
+    viewModel.getRooms();
   }
 
   @override
@@ -50,27 +54,31 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
               backgroundColor: Colors.transparent,
               title: const Text("Home"),
             ),
-            body: Column(
-              children: [
-                Expanded(child: Consumer<HomeViewModel>(
-                  builder: (context, value, child) {
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        return Text(value.rooms[index].title)
-                                     ;
-                      },
-                      itemCount: value.rooms.length,
-                    );
-                  },
-                ))
-              ],
+            body: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Expanded(child: Consumer<HomeViewModel>(
+                    builder: (context, homevalue, child) {
+                      return GridView.builder(
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            childAspectRatio: 4 / 3),
+                        itemBuilder: (context, index) {
+                          return RoomWidget(homevalue.rooms[index]);
+                        },
+                        itemCount: homevalue.rooms.length,
+                      );
+                    },
+                  ))
+                ],
+              ),
             ),
           ),
         ],
       ),
     );
   }
-
-  @override
-  HomeViewModel initViewModel() => HomeViewModel();
 }
