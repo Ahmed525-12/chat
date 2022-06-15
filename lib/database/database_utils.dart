@@ -37,6 +37,11 @@ class DataBaseUtils {
     var roomCollection = getRoomscollection();
     var docref = roomCollection.doc();
     Room room = Room(id: docref.id, title: title, desc: desc, catId: catId);
-    return docref.set(room) ;
+    return docref.set(room);
+  }
+
+  static Future<List<Room>> getRoomsFromFirestore() async {
+    var getroom = await getRoomscollection().get();
+   return getroom.docs.map((e) => e.data()).toList();
   }
 }

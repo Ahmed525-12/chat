@@ -50,6 +50,21 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
               backgroundColor: Colors.transparent,
               title: const Text("Home"),
             ),
+            body: Column(
+              children: [
+                Expanded(child: Consumer<HomeViewModel>(
+                  builder: (context, value, child) {
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Text(value.rooms[index].title)
+                                     ;
+                      },
+                      itemCount: value.rooms.length,
+                    );
+                  },
+                ))
+              ],
+            ),
           ),
         ],
       ),
