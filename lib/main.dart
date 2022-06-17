@@ -1,8 +1,10 @@
 import 'package:chat/provider/user_provider.dart';
 import 'package:chat/screens/add_room/add_room.dart';
+import 'package:chat/screens/chat/chat.dart';
 import 'package:chat/screens/home/home_screen.dart';
 import 'package:chat/screens/log/login.dart';
 import 'package:chat/screens/register/register.dart';
+import 'package:chat/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -31,10 +33,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
+        ChatScreen.routeNane:(context) => ChatScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
         LogIn.routeName: (context) => LogIn(),
         HomeScreen.routeName: (context) => HomeScreen(),
         AddRoom.routeName: (context) => AddRoom(),
+        Settings.RouteName:(context) => Settings()
       },
       initialRoute:userprovider.firebaseUser==null? LogIn.routeName:HomeScreen.routeName,
     );

@@ -44,6 +44,7 @@ class _AddRoomState extends BaseState<AddRoom, AddRoomViewModel>
             ),
           ),
           Scaffold(
+             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               centerTitle: true,

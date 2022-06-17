@@ -46,6 +46,7 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
             ),
           ),
           Scaffold(
+             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               centerTitle: true,
@@ -64,7 +65,7 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextFormField(
-                        decoration: InputDecoration(labelText: 'Email'),
+                        decoration: InputDecoration(hintText: 'Email'),
                         onChanged: (text) {
                           email = text;
                         },
@@ -104,7 +105,7 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
                     InkWell(
                         onTap: (){
                           Navigator.pushReplacementNamed(context,
-                              RegisterScreen.routeName);
+                              RegisterScreen.routeName,);
                         },
                         child: Text("Don't have an account ? "))
                   ],

@@ -61,6 +61,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
               ),
             ),
             Scaffold(
+               resizeToAvoidBottomInset: false,
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 centerTitle: true,
