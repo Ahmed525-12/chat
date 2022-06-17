@@ -44,7 +44,6 @@ class _AddRoomState extends BaseState<AddRoom, AddRoomViewModel>
             ),
           ),
           Scaffold(
-             resizeToAvoidBottomInset: false,
             backgroundColor: Colors.transparent,
             appBar: AppBar(
               centerTitle: true,
@@ -52,107 +51,115 @@ class _AddRoomState extends BaseState<AddRoom, AddRoomViewModel>
               backgroundColor: Colors.transparent,
               title: const Text("Add Room"),
             ),
-            body: Container(
-              margin: const EdgeInsets.all(24),
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5), //color of shadow
-                  spreadRadius: 5, //spread radius
-                  blurRadius: 7, // blur radius
-                  offset: const Offset(0, 2), // changes position of shadow
-                  //first paramerter of offset is left-right
-                  //second parameter is top to down
-                ),
-                //you can set more BoxShadow() here
-              ], borderRadius: BorderRadius.circular(12), color: Colors.white),
-              child: Form(
-                key: globalKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const Text(
-                      "Create New Room",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Image.asset("assets/img/addroom.png"),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return "type here please";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(hintText: "Room Title"),
-                      onChanged: (val) {
-                        title = val;
-                        setState(() {});
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Expanded(
-                          child: DropdownButton<Category>(
-                              value: selected,
-                              items: categories
-                                  .map((cat) => DropdownMenuItem<Category>(
-                                      value: cat,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          children: [
-                                            Image.asset(cat.image),
-                                            const SizedBox(
-                                              width: 5,
-                                            ),
-                                            Text(cat.title)
-                                          ],
-                                        ),
-                                      )))
-                                  .toList(),
-                              onChanged: (val) {
-                                if (val == null) {
-                                  return;
-                                }
-                                selected = val;
-                                setState(() {});
-                              }),
+            body: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5), //color of shadow
+                        spreadRadius: 5, //spread radius
+                        blurRadius: 7, // blur radius
+                        offset:
+                            const Offset(0, 2), // changes position of shadow
+                        //first paramerter of offset is left-right
+                        //second parameter is top to down
+                      ),
+                      //you can set more BoxShadow() here
+                    ],
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white),
+                child: Form(
+                  key: globalKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      const Center(
+                        child: Text(
+                          "Create New Room",
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return "type here please";
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(hintText: "Description"),
-                      onChanged: (val) {
-                        discreption = val;
-                        setState(() {});
-                      },
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          validateFrom();
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Image.asset("assets/img/addroom.png"),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "type here please";
+                          }
+                          return null;
                         },
-                        child: const Text("Create"))
-                  ],
+                        decoration: InputDecoration(hintText: "Room Title"),
+                        onChanged: (val) {
+                          title = val;
+                          setState(() {});
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: DropdownButton<Category>(
+                                value: selected,
+                                items: categories
+                                    .map((cat) => DropdownMenuItem<Category>(
+                                        value: cat,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Image.asset(cat.image),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(cat.title)
+                                            ],
+                                          ),
+                                        )))
+                                    .toList(),
+                                onChanged: (val) {
+                                  if (val == null) {
+                                    return;
+                                  }
+                                  selected = val;
+                                  setState(() {});
+                                }),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return "type here please";
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(hintText: "Description"),
+                        onChanged: (val) {
+                          discreption = val;
+                          setState(() {});
+                        },
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            validateFrom();
+                          },
+                          child: const Text("Create"))
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -173,7 +180,9 @@ class _AddRoomState extends BaseState<AddRoom, AddRoomViewModel>
 
   @override
   void roomCreated() {
-    showmesasge("your room is created");
-   
+    showmesasge('room Created Successfully', actionName: "ok", action: () {
+      hideloading();
+      Navigator.pop(context);
+    });
   }
 }

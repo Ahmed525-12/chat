@@ -11,15 +11,16 @@ class RoomWidget extends StatelessWidget {
   build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(ChatScreen.routeNane,arguments: room);
+        Navigator.of(context)
+            .pushNamed(ChatScreen.routeNane, arguments: room);
       },
       child: Container(
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5), //color of shadow
-              spreadRadius: 5, //spread radius
-              blurRadius: 7, // blur radius
+              spreadRadius:2, //spread radius
+              blurRadius: 5, // blur radius
               offset: const Offset(0, 2), // changes position of shadow
               //first paramerter of offset is left-right
               //second parameter is top to down

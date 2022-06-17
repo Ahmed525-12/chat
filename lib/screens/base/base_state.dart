@@ -18,7 +18,15 @@ abstract class BaseState<T extends StatefulWidget, VM extends BaseViewModel>
   
   @override
   void hideloading() {
-    Navigator.popUntil(context, (route) => route.isCurrent);
+  Navigator.popUntil(context, (route) {
+    bool isVisible = route is PopupRoute;
+    return !isVisible;
+    });
+  }
+    @override
+  void hideloadingg() {
+                  Navigator.pop(context);
+
   }
 
   @override
@@ -29,14 +37,22 @@ abstract class BaseState<T extends StatefulWidget, VM extends BaseViewModel>
               title: Center(child: CircularProgressIndicator.adaptive()),
             ));
   }
+@override
+  void showmesasge(String message,{String? actionName , VoidCallback? action}) {
+    List<Widget>actions = [];
+    if(actionName!=null){
+      actions.add(
+        TextButton(onPressed: action, child: Text(actionName)));
+    }
 
-  @override
-  void showmesasge(String massage) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
-              title: Text(massage),
-            ));
+          actions: actions,
+          content: Row(
+            children: [Expanded(child: Text(message))],
+          ),
+        ));
   }
 
 }

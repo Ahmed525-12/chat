@@ -112,12 +112,7 @@ class _ChatScreenState extends BaseState<ChatScreen, ChatViewModel>
                           onChanged: (text) {
                             massage = text;
                           },
-                          validator: (text) {
-                            if (text == null || text.trim().isEmpty) {
-                              return 'Please enter massage';
-                            }
-                            return null;
-                          },
+                         
                         ),
                       ),
                       const SizedBox(

@@ -36,6 +36,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
   String password = '';
 
   String username = '';
+  bool _isObscure = true;
 
   @override
   void initState() {
@@ -61,7 +62,6 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
               ),
             ),
             Scaffold(
-               resizeToAvoidBottomInset: false,
               backgroundColor: Colors.transparent,
               appBar: AppBar(
                 centerTitle: true,
@@ -111,9 +111,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                             if (text == null || text.trim().isEmpty) {
                               return 'Please enter user Name';
                             }
-                            if (text.contains(' ')) {
-                              return 'user name must not contains white spaces';
-                            }
+                            
                             return null;
                           }),
                       TextFormField(
@@ -125,7 +123,7 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                             if (text == null || text.trim().isEmpty) {
                               return 'Please enter Email';
                             }
-
+                            
                             bool emailValid = RegExp(
                                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                 .hasMatch(text);
@@ -135,7 +133,20 @@ class _RegisterScreenState extends BaseState<RegisterScreen, RegisterViewModel>
                             return null;
                           }),
                       TextFormField(
-                        decoration: InputDecoration(labelText: 'Password'),
+                                                  obscureText: _isObscure,
+
+                        decoration: InputDecoration(labelText: 'Password', suffixIcon: IconButton(
+                              icon: Icon(
+                                _isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                            ),),
                         onChanged: (text) {
                           password = text;
                         },

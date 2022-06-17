@@ -20,6 +20,7 @@ class LogIn extends StatefulWidget {
 
 class _LogInState extends BaseState<LogIn, LoginViewModel>
     implements LoginNavigator {
+  bool _isObscure = true;
   @override
   LoginViewModel initViewModel() => LoginViewModel();
   @override
@@ -27,95 +28,117 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
     super.initState();
     viewModel.baseNavigator = this;
   }
-  String email='';
-  String password='';
+
+  String email = '';
+  String password = '';
   var globalKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<LoginViewModel>(
-      create: (buildContext)=>viewModel,
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.white,
-            child: Image.asset(
-              'assets/img/signin.png',
-              width: double.infinity,
-              height: double.infinity,
-              fit: BoxFit.fill,
-            ),
-          ),
-          Scaffold(
-             resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.transparent,
-            appBar: AppBar(
-              centerTitle: true,
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-              title: Text(
-                'Login',
+        create: (buildContext) => viewModel,
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.white,
+              child: Image.asset(
+                'assets/img/signin.png',
+                width: double.infinity,
+                height: double.infinity,
+                fit: BoxFit.fill,
               ),
             ),
-            body: Container(
-              padding: EdgeInsets.all(12),
-              child: Form(
-                key: globalKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextFormField(
-                        decoration: InputDecoration(hintText: 'Email'),
-                        onChanged: (text) {
-                          email = text;
-                        },
-                        validator: (text) {
-                          if (text == null || text.trim().isEmpty) {
-                            return 'Please enter Email';
-                          }
-
-                          bool emailValid = RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(text);
-                          if (!emailValid) {
-                            return 'email format not valid';
-                          }
-                          return null;
-                        }),
-                    TextFormField(
-                      decoration: InputDecoration(hintText: 'Password'),
-                      onChanged: (text) {
-                        password = text;
-                      },
-                      validator: (text) {
-                        if (text == null || text.trim().isEmpty) {
-                          return 'please enter password';
-                        }
-                        if (text.trim().length < 6) {
-                          return 'password should be at least 6 chars';
-                        }
-                        return null;
-                      },
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          vlidateKey();
-                        },
-                        child: Text('Login')),
-                    InkWell(
-                        onTap: (){
-                          Navigator.pushReplacementNamed(context,
-                              RegisterScreen.routeName,);
-                        },
-                        child: Text("Don't have an account ? "))
-                  ],
+            Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                centerTitle: true,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text(
+                  'Login',
                 ),
               ),
-            ),
-          )
-        ],
-      )
-    );
+              body: Padding(
+                padding: const EdgeInsets.only(top: 50),
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  child: Form(
+                    key: globalKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextFormField(
+                            decoration: InputDecoration(hintText: 'Email'),
+                            onChanged: (text) {
+                              email = text;
+                            },
+                            validator: (text) {
+                              if (text == null || text.trim().isEmpty) {
+                                return 'Please enter Email';
+                              }
+
+                              bool emailValid = RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(text);
+                              if (!emailValid) {
+                                return 'email format not valid';
+                              }
+                              return null;
+                            }),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          obscureText: _isObscure,
+                          decoration: InputDecoration(
+                            hintText: 'Password',
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isObscure = !_isObscure;
+                                });
+                              },
+                            ),
+                          ),
+                          onChanged: (text) {
+                            password = text;
+                          },
+                          validator: (text) {
+                            if (text == null || text.trim().isEmpty) {
+                              return 'please enter password';
+                            }
+                            if (text.trim().length < 6) {
+                              return 'password should be at least 6 chars';
+                            }
+                            return null;
+                          },
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              vlidateKey();
+                            },
+                            child: Text('Login')),
+                        InkWell(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                context,
+                                RegisterScreen.routeName,
+                              );
+                            },
+                            child: Text("Don't have an account ? "))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ));
   }
 
   void vlidateKey() async {
@@ -124,12 +147,11 @@ class _LogInState extends BaseState<LogIn, LoginViewModel>
     }
   }
 
- 
-
   @override
   void goToHome(MyUser myUser) {
-    var userprovider = Provider.of<UserProvider>(context,listen: false);
+    var userprovider = Provider.of<UserProvider>(context, listen: false);
     userprovider.user = myUser;
-    Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName,(route) => false);
+    Navigator.pushNamedAndRemoveUntil(
+        context, HomeScreen.routeName, (route) => false);
   }
 }

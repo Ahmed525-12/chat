@@ -7,6 +7,8 @@ import 'package:chat/screens/settings/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../database/database_utils.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String routeName = "Home Page";
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,7 +32,10 @@ class _HomeScreenState extends BaseState<HomeScreen, HomeViewModel>
   build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        await viewModel.rooms;
+        DataBaseUtils.getRoomsFromFirestore();
+        viewModel.rooms;
+        viewModel.getRooms();
+        setState(() {});
       },
       child: ChangeNotifierProvider(
         create: (context) => viewModel,
